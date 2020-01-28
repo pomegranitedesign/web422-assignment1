@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
-let Schema = mongoose.Schema;
+let Schema = mongoose.Schema
 let saleSchema = new Schema({
   saleDate: Date,
   items: [{ name: String, tags: [String], price: Number, quantity: Number }],
@@ -10,11 +10,11 @@ let saleSchema = new Schema({
     gender: String,
     age: Number,
     email: String,
-    satisfaction: Number
+    satisfaction: Number,
   },
 
   couponUsed: Boolean,
-  purchaseMethod: String
-});
+  purchaseMethod: String,
+})
 
-module.exports = saleSchema;
+module.exports = saleSchema

@@ -1,40 +1,40 @@
-const mongoose = require("mongoose");
-const saleSchema = require("./saleSchema.js");
+const mongoose = require('mongoose')
+const saleSchema = require('./saleSchema.js')
 
 module.exports = function(connectionString) {
-  let Sale;
+  let Sale
 
   return {
     initialize: function() {
       return new Promise((resolve, reject) => {
         let db1 = mongoose.createConnection(connectionString, {
           useNewUrlParser: true,
-          useUnifiedTopology: true
-        });
+          useUnifiedTopology: true,
+        })
 
-        db1.on("error", () => {
-          reject();
-        });
-        db1.once("open", () => {
-          Sale = db1.model("sales", saleSchema);
-          resolve();
-        });
-      });
+        db1.on('error', () => {
+          reject()
+        })
+        db1.once('open', () => {
+          Sale = db1.model('sales', saleSchema)
+          resolve()
+        })
+      })
     },
 
     // Adds a new sale
     addNewSale: function(data) {
       return new Promise((resolve, reject) => {
-        let newSale = new Sale(data);
+        let newSale = new Sale(data)
 
-        newSale.save(err => {
+        newSale.save((err) => {
           if (err) {
-            reject(err);
+            reject(err)
           } else {
-            resolve(`new sale successfully added`);
+            resolve(`new sale successfully added`)
           }
-        });
-      });
+        })
+      })
     },
 
     getAllSales: function(page, perPage) {
@@ -45,29 +45,29 @@ module.exports = function(connectionString) {
             .skip(+page * +perPage)
             .limit(+perPage)
             .exec()
-            .then(sales => {
-              resolve(sales);
+            .then((sales) => {
+              resolve(sales)
             })
-            .catch(err => {
-              reject(err);
-            });
+            .catch((err) => {
+              reject(err)
+            })
         } else {
-          reject("page and perPage query parameters must be present");
+          reject('page and perPage query parameters must be present')
         }
-      });
+      })
     },
 
     getSaleById: function(id) {
       return new Promise((resolve, reject) => {
         Sale.findOne({ _id: id })
           .exec()
-          .then(sale => {
-            resolve(sale);
+          .then((sale) => {
+            resolve(sale)
           })
-          .catch(err => {
-            reject(err);
-          });
-      });
+          .catch((err) => {
+            reject(err)
+          })
+      })
     },
 
     updateSaleById: function(data, id) {
@@ -75,17 +75,17 @@ module.exports = function(connectionString) {
         Sale.updateOne(
           { _id: id },
           {
-            $set: data
+            $set: data,
           }
         )
           .exec()
           .then(() => {
-            resolve(`sale ${id} successfully updated`);
+            resolve(`sale ${id} successfully updated`)
           })
-          .catch(err => {
-            reject(err);
-          });
-      });
+          .catch((err) => {
+            reject(err)
+          })
+      })
     },
 
     deleteSaleById: function(id) {
@@ -93,12 +93,12 @@ module.exports = function(connectionString) {
         Sale.deleteOne({ _id: id })
           .exec()
           .then(() => {
-            resolve(`sale ${id} successfully deleted`);
+            resolve(`sale ${id} successfully deleted`)
           })
-          .catch(err => {
-            reject(err);
-          });
-      });
-    }
-  };
-};
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
+  }
+}
